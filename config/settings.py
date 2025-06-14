@@ -1,6 +1,7 @@
-from pathlib import Path
-import environ
 import os
+from pathlib import Path
+
+import environ
 
 env = environ.Env(DEBUG=(bool, False))
 
@@ -21,6 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -104,3 +106,21 @@ if DEBUG:
     MIDDLEWARE += [
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER
+
+AUTH_USER_MODEL = 'users.User'
+
+LOGIN_REDIRECT_URL = 'mailing:index'
+LOGOUT_REDIRECT_URL = 'users:login'
+LOGIN_URL = 'users:login'
