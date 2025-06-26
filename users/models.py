@@ -17,7 +17,6 @@ class User(AbstractUser):
         default='users/avatars/default.jpg',
     )
     tg_chat_id = models.CharField(
-        unique=True,
         max_length=50,
         verbose_name="chat-id в телеграмм",
         help_text="Укажите chat-id в телеграмм",
