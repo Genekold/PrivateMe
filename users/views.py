@@ -1,12 +1,13 @@
 import secrets
 
+from django.contrib.auth.views import PasswordResetView
 from django.core.mail import send_mail
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 from config.settings import EMAIL_HOST_USER
-from users.forms import UserRegisterForm
+from users.forms import UserRegisterForm, CustomPasswordResetForm
 from users.models import User
 
 
@@ -42,3 +43,16 @@ def email_verification(request, token):
     user.is_active = True
     user.save()
     return redirect(reverse_lazy('users:login'))
+
+
+class CustomPasswordResetView(PasswordResetView):
+    """Проверка существования пользователя."""
+
+    form_class = CustomPasswordResetForm
+    template_name = 'users/password_reset_form.html'
+    email_template_name = 'users/password_reset_email.html'
+    success_url = reverse_lazy('users:password_reset_done')
+
+
+def profile(request):
+    return render(request, "users/profile.html")

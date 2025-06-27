@@ -1,5 +1,6 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from django import forms
+from django.core.exceptions import ValidationError
 
 from users.models import User
 
@@ -22,3 +23,15 @@ class UserRegisterForm(UserCreationForm):
         if User.objects.filter(nickname=nickname).exists():
             raise forms.ValidationError("Этот никнейм уже занят")
         return nickname
+
+
+class CustomPasswordResetForm(PasswordResetForm):
+    """Проверка существования пользователя."""
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        u = User.objects.filter(email=email)
+        user = User.objects.filter(email=email, is_active=True).exists()
+        if not User.objects.filter(email=email, is_active=True).exists():
+            raise ValidationError("Пользователь с таким email не найден")
+        return email

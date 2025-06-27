@@ -14,7 +14,7 @@ class User(AbstractUser):
         verbose_name='Аватвр',
         blank=True,
         null=True,
-        default='users/avatars/default.jpg',
+        default='media/users/avatars/default.jpg',
     )
     tg_chat_id = models.CharField(
         max_length=50,
