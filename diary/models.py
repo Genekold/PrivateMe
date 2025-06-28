@@ -8,11 +8,8 @@ class Mood(models.TextChoices):
     SMILE = '😊', 'Улыбка'
     LAUGH = '😂', 'Смех'
     SADNESS = '😒', 'Грусть'
-    MONEY = '🤑', 'Деньги'
     TEARS = '😢', 'Слезы'
-    DISGUSTING = '🤢', 'Противно'
     ANGER = '😡', 'Злость'
-    DAVIL = '😈', 'Дьявол'
 
 
 class Entry(models.Model):
@@ -70,10 +67,11 @@ class Tag(models.Model):
         unique=True,
         verbose_name='Название тега'
     )
-    slug = models.SlugField(
-        max_length=50,
-        unique=True,
-        verbose_name='URL-идентификатор'
+    owner = models.ForeignKey(
+        get_user_model(),
+        verbose_name='Автор тэга',
+        related_name='tags',
+        on_delete=models.CASCADE
     )
 
     def __str__(self):

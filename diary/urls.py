@@ -1,12 +1,16 @@
 from django.urls import path
 
 from diary.apps import DiaryConfig
-from diary.views import EntryCreateView, index
+from diary.views import EntryCreateView, EntryUpdateView, EntryListView, TagCreateView, EntryDetailView
 
 app_name = DiaryConfig.name
 
 urlpatterns = [
-    path("", index, name='index'),
-    path("diary/create/", EntryCreateView.as_view(), name='diary-create'),
+    path("", EntryListView.as_view(), name="entry-list"),
+    path("diary/entry/create/", EntryCreateView.as_view(), name='entry-create'),
+    path("diary/entry/<int:pk>/", EntryDetailView.as_view(), name="entry-detail"),
+    path("diary/entry/<int:pk>/update/", EntryUpdateView.as_view(), name='entry-update'),
+    # path("message/entry/<int:pk>/delete/", MessageDeleteView.as_view(), name="mentry-delete"),
 
+    path('diary/tag/create/', TagCreateView.as_view(), name='teg-create'),
 ]
