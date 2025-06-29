@@ -93,18 +93,21 @@
                 {% for entry in entrys %}
                 <div class="card-header">
                     <div class="card-body">
-                        <h5 class="card-title">{{ entry.title }}</h5>
+                        <h5 class="card-title">{{ entry.title }} {{ entry.mood }}</h5>
                         <p class="card-text">{{ entry.text|truncatechars:50 }}</p>
-                        <a href="{% url 'diary:entry-detail' entry.pk %}" class="btn btn-primary">Подробно</a>
+                        <a href="{% url 'diary:entry-detail' entry.pk %}" class="btn"
+                           style="background-color: indigo; color: white;">Подробно</a>
                     </div>
                     <div class="card-footer text-body-secondary">
                         {{ entry.created_at|time }}
                     </div>
                 </div>
                 {% endfor %}
+                <a href="{% url 'diary:entry-create' %}" class="btn"
+                   style="background-color: indigo; color: white;">Создать новую запись</a>
             </div>
             {% else %}
-            <div class="card w-75 mb-3">
+            <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Дневник</h5>
                     <p class="card-text">На сегодняшний день записей нет</p>
@@ -115,12 +118,18 @@
             {% endif %}
         </div>
     </div>
-    <div class="col-2">
-        <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
-            <div id="list-example" class="list-group">
-                <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
-            </div>
+    <div class="col-1">
+        <div class="d-flex flex-column flex-md-row py-md-5">
+            <select class="form-select" area-label="Default select example">
+                <option selected>Тэги</option>
+                {% for tag in user.tags.all %}
+                <option value="1">{{ tag }}</option>
+                {% endfor %}
+            </select>
+
         </div>
+        <a href="{% url 'diary:tag-create' %}" class="btn"
+                       style="background-color: indigo; color: white;">Добавить тэг</a>
     </div>
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
         <symbol id="arrow-left-short" viewBox="0 0 16 16">

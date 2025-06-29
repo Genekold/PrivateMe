@@ -14,7 +14,7 @@
             {% endif %}
         </div>
         <button type="submit" class="btn" style="background-color: indigo; color: white;">Создать тег</button>
-        <a href="#" class="btn btn-secondary">Отмена</a>
+        <a href="{% url 'diary:entry-list' %}" class="btn btn-secondary">Отмена</a>
     </form>
 </div>
 {% endblock %}

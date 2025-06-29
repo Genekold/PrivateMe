@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import CreateView, UpdateView, ListView, DetailView
+from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
 
 from diary.forms import EntryForm, TagForm
 from diary.models import Entry, Tag
@@ -31,8 +31,9 @@ class EntryCreateView(CreateView):
     """Класс создания записи в дневнике."""
     model = Entry
     form_class = EntryForm
-    template_name = "diary/entry_create.html"
+    template_name = "diary/entry_form.html"
     title_page = "Создание записи"
+    context_object_name = "entry"
     success_url = reverse_lazy("diary:entry-list")
     # permission_required = 'mailing.add_mailingrecipient'
 
@@ -47,12 +48,18 @@ class EntryUpdateView(UpdateView):
     model = Entry
     form_class = EntryForm
     template_name = "diary/entry_canging.html"
-    success_url = reverse_lazy("diary:index")
+    success_url = reverse_lazy("diary:entry-list")
     # permission_required = 'mailing.change_message'
 
 
+class EntryDeleteView(DeleteView):
+    """Класс удаления записи."""
+    model = Entry
+    success_url = reverse_lazy("diary:entry-list")
+
+
 class TagCreateView(CreateView):
-    """Класс для создония тэгов"""
+    """Класс для создония тэгов."""
     model = Tag
     form_class = TagForm
     template_name = 'diary/tag_form.html'

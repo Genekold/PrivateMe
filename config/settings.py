@@ -122,6 +122,6 @@ EMAIL_ADMIN = EMAIL_HOST_USER
 
 AUTH_USER_MODEL = 'users.User'
 
-LOGIN_REDIRECT_URL = 'diary:index'
+LOGIN_REDIRECT_URL = 'diary:entry-list'
 LOGOUT_REDIRECT_URL = 'users:login'
 LOGIN_URL = 'users:login'
