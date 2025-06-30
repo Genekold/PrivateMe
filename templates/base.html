@@ -10,14 +10,7 @@
     <link href="{% static 'css/dropdowns.css' %}" rel="stylesheet">
     <script src="{% static 'js/color-modes.js' %}"></script>
 
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" href="/docs/5.0/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
-    <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-    <link rel="mask-icon" href="/docs/5.0/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
-    <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon.ico">
-    <meta name="theme-color" content="#7952b3">
-
+    <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css' %}">
 
     <style>
         .bd-placeholder-img {
@@ -162,8 +155,14 @@
                     <li><a href="#" class="nav-link px-2 link-dark">Отзывы</a></li>
                 </ul>
 
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                    <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+                <form method="get" action="{% url 'diary:search' %}" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                    <div class="input-group">
+                        <input type="search" class="form-control" placeholder="Поиск записей .." name="result"
+                               aria-label="Поиск записей" value="{{ request.GET.result }}" required>
+                        <button class="btn" style="background-color: indigo; color: white;" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
                 </form>
 
                 <div class="dropdown text-end">
@@ -175,12 +174,12 @@
                     <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                         <li class="dropdown-item">{{ user.email }}</li>
                         <hr class="dropdown-divider">
-                        <li><a class="dropdown-item" href="{% url 'users:profile' %}">мой профиль</a></li>
+                        <li><a class="dropdown-item" href="{% url 'users:profile' user.pk %}">мой профиль</a></li>
                         <hr class="dropdown-divider">
                         </li>
                         <form method="POST" action="{% url 'users:logout' %}">
                             {% csrf_token %}
-                            <button type="submit" class="btn text-primary gap-2 nav-link d-flex">
+                            <button type="submit" class="btn text-purple gap-2 nav-link d-flex">
                                 Выйти
                             </button>
                         </form>
@@ -199,7 +198,6 @@
 <header class="p-3 mb-3 border-bottom">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li>
                     <a href="#">
@@ -217,12 +215,8 @@
                 <li><a href="#" class="nav-link px-2 link-dark">Отзывы</a></li>
             </ul>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-            </form>
-
             <div class="dropdown text-end">
-                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle"
                    data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="/media/users/avatars/default.jpg" alt="mdo" width="50" height="50" class="rounded-circle">
                 </a>

@@ -17,7 +17,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', UserCreateView.as_view(template_name='users/register.html'), name='register'),
     path('email-confirm/<str:token>/', email_verification, name='email_confirm'),
-    path('pofile/', profile, name='profile'),
+    path('pofile/<int:pk>/', profile, name='profile'),
     path('password-reset/', CustomPasswordResetView.as_view(), name='password_reset'),
     path(
         'password-reset/done/',

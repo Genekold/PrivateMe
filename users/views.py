@@ -2,6 +2,7 @@ import secrets
 
 from django.contrib.auth.views import PasswordResetView
 from django.core.mail import send_mail
+from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -54,5 +55,10 @@ class CustomPasswordResetView(PasswordResetView):
     success_url = reverse_lazy('users:password_reset_done')
 
 
-def profile(request):
-    return render(request, "users/profile.html")
+def profile(request, pk):
+    requested_user = get_object_or_404(User, pk=pk)
+
+    if request.user != requested_user:
+        return HttpResponseForbidden("Вы не имеете доступа к этому профилю")
+
+    return render(request, "users/profile.html", {'user': requested_user})

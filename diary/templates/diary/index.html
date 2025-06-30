@@ -105,20 +105,20 @@
                 {% endfor %}
                 <a href="{% url 'diary:entry-create' %}" class="btn"
                    style="background-color: indigo; color: white;">Создать новую запись</a>
-            </div>
-            {% else %}
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Дневник</h5>
-                    <p class="card-text">На сегодняшний день записей нет</p>
-                    <a href="{% url 'diary:entry-create' %}" class="btn"
-                       style="background-color: indigo; color: white;">Создать</a>
+                {% else %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Дневник</h5>
+                        <p class="card-text">В этот день записей нет</p>
+                        <a href="{% url 'diary:entry-create' %}" class="btn"
+                           style="background-color: indigo; color: white;">Создать</a>
+                    </div>
                 </div>
+                {% endif %}
             </div>
-            {% endif %}
         </div>
     </div>
-    <div class="col-1">
+    <div class="col-2">
         <div class="flex-column flex-md-row py-md-5">
             <select class="form-select" area-label="Default select example">
                 <option selected>Тэги</option>

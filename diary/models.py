@@ -23,7 +23,12 @@ class Entry(models.Model):
     text = models.TextField(verbose_name='Текст записи', help_text='Введите текст записи')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='время создания записи')
     change_time = models.DateTimeField(auto_now=True, verbose_name='время изменения записи')
-    tags = models.ManyToManyField('Tag', related_name='entry', blank=True, verbose_name='Теги')
+    tags = models.ManyToManyField(
+        'Tag',
+        related_name='entry',
+        blank=True,
+        verbose_name='Теги'
+    )
     mood = models.CharField(max_length=5, verbose_name="Настроение", choices=Mood.choices, default=Mood.MOOD)
     owner = models.ForeignKey(
         get_user_model(), verbose_name='Автор записи', related_name='entry', on_delete=models.CASCADE

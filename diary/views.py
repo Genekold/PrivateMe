@@ -1,7 +1,11 @@
 from datetime import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.db.models import Q
+from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from diary.forms import EntryForm, TagForm
@@ -16,12 +20,13 @@ class EntryListView(LoginRequiredMixin, ListView):
     context_object_name = "entrys"
 
     def get_queryset(self):
-
-        qs = super().get_queryset()
-
+        qs = super().get_queryset().filter(owner=self.request.user)
         if filter_date := self.request.GET.get('date'):
             date = datetime.strptime(filter_date, '%d.%m.%Y').date()
             qs = qs.filter(created_at__date=date)
+        else:
+            today = timezone.now().date()
+            qs = qs.filter(created_at__date=today)
         return qs
 
 
@@ -31,7 +36,13 @@ class EntryDetailView(LoginRequiredMixin, DetailView):
     model = Entry
     template_name = "diary/entry_detail.html"
     context_object_name = "entry"
-    # permission_required = 'diary.view_message'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.owner != self.request.user:
+            raise PermissionDenied("У вас нет прав для просмотра этой записи")
+
+        return super().dispatch(request, *args, **kwargs)
 
 
 class EntryCreateView(LoginRequiredMixin, CreateView):
@@ -43,7 +54,11 @@ class EntryCreateView(LoginRequiredMixin, CreateView):
     title_page = "Создание записи"
     context_object_name = "entry"
     success_url = reverse_lazy("diary:entry-list")
-    # permission_required = 'diary.add_mailingrecipient'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
     def form_valid(self, form):
         entry = form.save(commit=False)
@@ -58,7 +73,12 @@ class EntryUpdateView(LoginRequiredMixin, UpdateView):
     form_class = EntryForm
     template_name = "diary/entry_canging.html"
     success_url = reverse_lazy("diary:entry-list")
-    # permission_required = 'diary.change_message'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.owner != self.request.user:
+            raise PermissionDenied("У вас нет прав для просмотра этой записи")
+        return super().dispatch(request, *args, **kwargs)
 
 
 class EntryDeleteView(LoginRequiredMixin, DeleteView):
@@ -66,6 +86,12 @@ class EntryDeleteView(LoginRequiredMixin, DeleteView):
 
     model = Entry
     success_url = reverse_lazy("diary:entry-list")
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.owner != self.request.user:
+            raise PermissionDenied("У вас нет прав для просмотра этой записи")
+        return super().dispatch(request, *args, **kwargs)
 
 
 class TagCreateView(LoginRequiredMixin, CreateView):
@@ -82,7 +108,15 @@ class TagCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-# def index(request):
-#     """Функция предтавления главной страницы"""
-#
-#     return render(request, 'diary/index.html')
+def search_view(request):
+    query = request.GET.get('result', '')
+    results = []
+
+    if query:
+        results = Entry.objects.filter(Q(title__icontains=query) | Q(text__icontains=query))
+
+    context = {
+        'results': results,
+        'query': query
+    }
+    return render(request, 'diary/search.html', context)
