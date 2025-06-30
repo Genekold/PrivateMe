@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 from config.settings import EMAIL_HOST_USER
-from users.forms import UserRegisterForm, CustomPasswordResetForm
+from users.forms import CustomPasswordResetForm, UserRegisterForm
 from users.models import User
 
 

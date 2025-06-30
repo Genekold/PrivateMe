@@ -1,10 +1,8 @@
 from datetime import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.utils import timezone
-from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from diary.forms import EntryForm, TagForm
 from diary.models import Entry, Tag
@@ -12,6 +10,7 @@ from diary.models import Entry, Tag
 
 class EntryListView(LoginRequiredMixin, ListView):
     """Класс представления записей."""
+
     model = Entry
     template_name = "diary/index.html"
     context_object_name = "entrys"
@@ -28,6 +27,7 @@ class EntryListView(LoginRequiredMixin, ListView):
 
 class EntryDetailView(LoginRequiredMixin, DetailView):
     """Класс детального представления сообщения"""
+
     model = Entry
     template_name = "diary/entry_detail.html"
     context_object_name = "entry"
@@ -36,6 +36,7 @@ class EntryDetailView(LoginRequiredMixin, DetailView):
 
 class EntryCreateView(LoginRequiredMixin, CreateView):
     """Класс создания записи в дневнике."""
+
     model = Entry
     form_class = EntryForm
     template_name = "diary/entry_form.html"
@@ -52,6 +53,7 @@ class EntryCreateView(LoginRequiredMixin, CreateView):
 
 class EntryUpdateView(LoginRequiredMixin, UpdateView):
     """Класс изменения записи в дневнике."""
+
     model = Entry
     form_class = EntryForm
     template_name = "diary/entry_canging.html"
@@ -61,12 +63,14 @@ class EntryUpdateView(LoginRequiredMixin, UpdateView):
 
 class EntryDeleteView(LoginRequiredMixin, DeleteView):
     """Класс удаления записи."""
+
     model = Entry
     success_url = reverse_lazy("diary:entry-list")
 
 
 class TagCreateView(LoginRequiredMixin, CreateView):
     """Класс для создония тэгов."""
+
     model = Tag
     form_class = TagForm
     template_name = 'diary/tag_form.html'

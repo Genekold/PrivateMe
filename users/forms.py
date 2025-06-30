@@ -1,5 +1,5 @@
-from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from django import forms
+from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
 from django.core.exceptions import ValidationError
 
 from users.models import User
@@ -30,8 +30,6 @@ class CustomPasswordResetForm(PasswordResetForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        u = User.objects.filter(email=email)
-        user = User.objects.filter(email=email, is_active=True).exists()
         if not User.objects.filter(email=email, is_active=True).exists():
             raise ValidationError("Пользователь с таким email не найден")
         return email

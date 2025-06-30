@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from .models import Entry, Tag
 
 
@@ -6,7 +7,9 @@ from .models import Entry, Tag
 class EntryAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'created_at', 'mood', 'owner')
     list_display_links = ('id', 'title')
-    ordering = ['-created_at',]
+    ordering = [
+        '-created_at',
+    ]
     list_per_page = 10
 
 

@@ -5,5 +5,11 @@ from users.models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'email', 'nickname', 'avatar', 'tg_chat_id',)
+    list_display = (
+        'id',
+        'email',
+        'nickname',
+        'avatar',
+        'tg_chat_id',
+    )
     exclude = ('password',)
