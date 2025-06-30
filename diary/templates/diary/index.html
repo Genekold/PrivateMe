@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+
+{% block title %}Дневник{% endblock %}
+
+{% block content %}
+<body>
+<div class="row">
+    <div class="col-4">
+        <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
+            <div class="dropdown-menu d-block position-static p-2 mx-0 shadow rounded-3 w-340px" data-bs-theme="light">
+                <div class="d-grid gap-1">
+                    <div class="cal">
+                        <div class="cal-month">
+                            <button class="btn cal-btn" type="button" aria-label="previous month">
+                                <svg class="bi" width="16" height="16" aria-hidden="true">
+                                    <use xlink:href="#arrow-left-short"></use>
+                                </svg>
+                            </button>
+                            <strong class="cal-month-name">June</strong>
+                            <select class="form-select cal-month-name d-none">
+                                <option value="January">January</option>
+                                <option value="February">February</option>
+                                <option value="March">March</option>
+                                <option value="April">April</option>
+                                <option value="May">May</option>
+                                <option selected value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="August">August</option>
+                                <option value="September">September</option>
+                                <option value="October">October</option>
+                                <option value="November">November</option>
+                                <option value="December">December</option>
+                            </select>
+                            <button class="btn cal-btn" type="button" aria-label="next month">
+                                <svg class="bi" width="16" height="16" aria-hidden="true">
+                                    <use xlink:href="#arrow-right-short"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="cal-weekdays text-body-secondary">
+                            <div class="cal-weekday">ВС</div>
+                            <div class="cal-weekday">ПН</div>
+                            <div class="cal-weekday">ВТ</div>
+                            <div class="cal-weekday">СР</div>
+                            <div class="cal-weekday">ЧТ</div>
+                            <div class="cal-weekday">ПТ</div>
+                            <div class="cal-weekday">СБ</div>
+                        </div>
+                        <div class="cal-days">
+                            <button class="btn cal-btn" disabled type="button">30</button>
+                            <button class="btn cal-btn" disabled type="button">31</button>
+                            <button class="btn cal-btn" type="button">1</button>
+                            <button class="btn cal-btn" type="button">2</button>
+                            <button class="btn cal-btn" type="button">3</button>
+                            <button class="btn cal-btn" type="button">4</button>
+                            <button class="btn cal-btn" type="button">5</button>
+                            <button class="btn cal-btn" type="button">6</button>
+                            <button class="btn cal-btn" type="button">7</button>
+                            <button class="btn cal-btn" type="button">8</button>
+                            <button class="btn cal-btn" type="button">9</button>
+                            <button class="btn cal-btn" type="button">10</button>
+                            <button class="btn cal-btn" type="button">11</button>
+                            <button class="btn cal-btn" type="button">12</button>
+                            <button class="btn cal-btn" type="button">13</button>
+                            <button class="btn cal-btn" type="button">14</button>
+                            <button class="btn cal-btn" type="button">15</button>
+                            <button class="btn cal-btn" type="button">16</button>
+                            <button class="btn cal-btn" type="button">17</button>
+                            <button class="btn cal-btn" type="button">18</button>
+                            <button class="btn cal-btn" type="button">19</button>
+                            <button class="btn cal-btn" type="button">20</button>
+                            <button class="btn cal-btn" type="button">21</button>
+                            <button class="btn cal-btn" type="button">22</button>
+                            <button class="btn cal-btn" type="button">23</button>
+                            <button class="btn cal-btn" type="button">24</button>
+                            <button class="btn cal-btn" type="button">25</button>
+                            <button class="btn cal-btn" type="button">26</button>
+                            <button class="btn cal-btn" type="button">27</button>
+                            <button class="btn cal-btn" type="button">28</button>
+                            <button class="btn cal-btn" type="button">29</button>
+                            <button class="btn cal-btn" type="button">30</button>
+                            <button class="btn cal-btn" type="button">31</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
+            <div class="card text-center">
+                {% if entrys %}
+                {% for entry in entrys %}
+                <div class="card-header">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ entry.title }} {{ entry.mood }}</h5>
+                        <p class="card-text">{{ entry.text|truncatechars:50 }}</p>
+                        <a href="{% url 'diary:entry-detail' entry.pk %}" class="btn"
+                           style="background-color: indigo; color: white;">Подробно</a>
+                    </div>
+                    <div class="card-footer text-body-secondary">
+                        {{ entry.created_at|time }}
+                    </div>
+                </div>
+                {% endfor %}
+                <a href="{% url 'diary:entry-create' %}" class="btn"
+                   style="background-color: indigo; color: white;">Создать новую запись</a>
+            </div>
+            {% else %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Дневник</h5>
+                    <p class="card-text">На сегодняшний день записей нет</p>
+                    <a href="{% url 'diary:entry-create' %}" class="btn"
+                       style="background-color: indigo; color: white;">Создать</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-1">
+        <div class="flex-column flex-md-row py-md-5">
+            <select class="form-select" area-label="Default select example">
+                <option selected>Тэги</option>
+                {% for tag in user.tags.all %}
+                <option value="1">{{ tag }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <a href="{% url 'diary:tag-create' %}" class="btn"
+           style="background-color: indigo; color: white;">Добавить</a>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="arrow-left-short" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                  d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+        </symbol>
+        <symbol id="arrow-right-short" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                  d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+        </symbol>
+    </svg>
+</div>
+</body>
+</html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Получаем все календари на странице
+        const calendars = document.querySelectorAll('.cal');
+
+        calendars.forEach(calendar => {
+            const monthName = calendar.querySelector('.cal-month-name');
+            const monthSelect = calendar.querySelector('.cal-month-name.form-select');
+            const prevBtn = calendar.querySelector('[aria-label="previous month"]');
+            const nextBtn = calendar.querySelector('[aria-label="next month"]');
+            const daysContainer = calendar.querySelector('.cal-days');
+
+            let currentDate = new Date();
+
+            // Показываем выпадающий список месяцев при клике
+            monthName.addEventListener('click', () => {
+                monthName.classList.add('d-none');
+                monthSelect.classList.remove('d-none');
+            });
+
+            // Обработчик изменения месяца в select
+            monthSelect.addEventListener('change', function() {
+                const monthIndex = this.selectedIndex;
+                currentDate.setMonth(monthIndex);
+                updateCalendar();
+                monthSelect.classList.add('d-none');
+                monthName.classList.remove('d-none');
+            });
+
+            // Кнопки вперед/назад
+            prevBtn.addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                updateCalendar();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                updateCalendar();
+            });
+
+            // Обновление календаря
+            function updateCalendar() {
+                const year = currentDate.getFullYear();
+                const month = currentDate.getMonth();
+
+                // Обновляем название месяца
+                monthName.textContent = new Date(year, month).toLocaleString('default', { month: 'long' });
+                monthSelect.selectedIndex = month;
+
+                // Очищаем дни
+                daysContainer.innerHTML = '';
+
+                // Получаем первый и последний день месяца
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+
+                // Получаем день недели первого дня месяца
+                const firstDayOfWeek = firstDay.getDay();
+
+                // Получаем последний день предыдущего месяца
+                const prevLastDay = new Date(year, month, 0).getDate();
+
+                // Добавляем дни предыдущего месяца
+                for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+                    const day = prevLastDay - i;
+                    const button = document.createElement('button');
+                    button.className = 'btn cal-btn';
+                    button.disabled = true;
+                    button.textContent = day;
+                    daysContainer.appendChild(button);
+                }
+
+                // Добавляем дни текущего месяца
+                for (let day = 1; day <= lastDay.getDate(); day++) {
+                    const button = document.createElement('button');
+                    button.className = 'btn cal-btn';
+                    button.textContent = day;
+
+                    // Выделяем текущий день
+                    if (day === new Date().getDate() &&
+                        month === new Date().getMonth() &&
+                        year === new Date().getFullYear()) {
+                        button.classList.add('active');
+                    }
+
+                    button.addEventListener('click', function() {
+                        // Удаляем активный класс у всех кнопок
+                        document.querySelectorAll('.cal-days .cal-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        // Добавляем активный класс к выбранной кнопке
+                        this.classList.add('active');
+                        console.log(`Выбрана дата: ${day}.${month + 1}.${year}`);
+                        const url = `/?date=${day}.${month + 1}.${year}`;
+                        window.location.href = url;
+                    });
+
+                    daysContainer.appendChild(button);
+                }
+
+                // Добавляем дни следующего месяца
+                const daysNeeded = 42 - (firstDayOfWeek + lastDay.getDate()); // 6 недель
+                for (let day = 1; day <= daysNeeded; day++) {
+                    const button = document.createElement('button');
+                    button.className = 'btn cal-btn';
+                    button.disabled = true;
+                    button.textContent = day;
+                    daysContainer.appendChild(button);
+                }
+            }
+
+            // Инициализация календаря
+            updateCalendar();
+        });
+    });
+</script>
+
+{% endblock %}
