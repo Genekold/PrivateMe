@@ -12,7 +12,7 @@ from diary.forms import EntryForm, TagForm
 from diary.models import Entry, Tag
 
 
-class EntryListView(LoginRequiredMixin, ListView):
+class EntryListView(ListView):
     """Класс представления записей."""
 
     model = Entry
@@ -20,7 +20,13 @@ class EntryListView(LoginRequiredMixin, ListView):
     context_object_name = "entrys"
 
     def get_queryset(self):
-        qs = super().get_queryset().filter(owner=self.request.user)
+        qs = super().get_queryset()
+
+        if self.request.user.is_authenticated:
+            qs = qs.filter(owner=self.request.user)
+        else:
+            return qs.none()
+
         if filter_date := self.request.GET.get('date'):
             date = datetime.strptime(filter_date, '%d.%m.%Y').date()
             qs = qs.filter(created_at__date=date)
@@ -113,7 +119,7 @@ def search_view(request):
     results = []
 
     if query:
-        results = Entry.objects.filter(Q(title__icontains=query) | Q(text__icontains=query))
+        results = Entry.objects.filter(Q(title__icontains=query) | Q(text__icontains=query), owner=request.user)
 
     context = {
         'results': results,
