@@ -83,3 +83,14 @@ DEBUG=False
 EMAIL_HOST_USER=smtp.example.com
 EMAIL_HOST_PASSWORD=qwertyuiop
 ```
+
+<div align="center" style="margin-top: 40px;">
+
+**Private Me** — ваш личный цифровой дневник  
+© 2023 | [Политика конфиденциальности](#) | [Условия использования](#)
+
+[![Django](https://img.shields.io/badge/Django-092E20?logo=django&logoColor=white)](https://www.djangoproject.com/)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+
+</div>
