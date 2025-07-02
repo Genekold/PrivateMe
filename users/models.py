@@ -10,7 +10,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True, verbose_name='Email')
     phone = models.CharField(max_length=20, verbose_name='Телефон', blank=True, null=True)
     avatar = models.ImageField(
-        upload_to='users/avatars//%Y/%m/%d/',
+        upload_to='users/avatars/%Y/%m/%d/',
         verbose_name='Аватвр',
         blank=True,
         null=True,

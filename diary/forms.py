@@ -50,10 +50,8 @@ class EntryForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        print('qweqweq')
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
-        print(type(self.user))
 
         if self.user:
             self.fields['tags'].queryset = Tag.objects.filter(owner=self.user)

@@ -125,3 +125,7 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = 'diary:entry-list'
 LOGOUT_REDIRECT_URL = 'users:login'
 LOGIN_URL = 'users:login'
+
+if not DEBUG:
+    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

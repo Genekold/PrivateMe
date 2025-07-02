@@ -31,7 +31,7 @@ class Entry(models.Model):
     )
     mood = models.CharField(max_length=5, verbose_name="Настроение", choices=Mood.choices, default=Mood.MOOD)
     owner = models.ForeignKey(
-        get_user_model(), verbose_name='Автор записи', related_name='entry', on_delete=models.CASCADE
+        get_user_model(), verbose_name='Автор записи', related_name='entries', on_delete=models.CASCADE
     )
 
     def __str__(self):
