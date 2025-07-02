@@ -26,7 +26,7 @@ class Entry(models.Model):
     tags = models.ManyToManyField('Tag', related_name='entry', blank=True, verbose_name='Теги')
     mood = models.CharField(max_length=5, verbose_name="Настроение", choices=Mood.choices, default=Mood.MOOD)
     owner = models.ForeignKey(
-        get_user_model(), verbose_name='Автор записи', related_name='entry', on_delete=models.CASCADE
+        get_user_model(), verbose_name='Автор записи', related_name='entries', on_delete=models.CASCADE
     )
 
     def __str__(self):
@@ -41,7 +41,7 @@ class Entry(models.Model):
 class Tag(models.Model):
     """Модель тэга для записи."""
 
-    name = models.CharField(max_length=50, unique=True, verbose_name='Название тега')
+    name = models.CharField(max_length=50, verbose_name='Название тега')
     owner = models.ForeignKey(
         get_user_model(), verbose_name='Автор тэга', related_name='tags', on_delete=models.CASCADE
     )

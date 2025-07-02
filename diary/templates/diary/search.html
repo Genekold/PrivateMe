@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Результат поиска{% endblock %}
+
+{% block content %}
+<h2>Результаты поиска для "{{ query }}"</h2>
+{% if results %}
+<div class="row">
+    <div class="col-8">
+        {% for item in results %}
+        <div class="card text-center">
+            <div class="card-header">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.title }} {{ item.mood }}</h5>
+                    <p class="card-text">{{ item.text|truncatechars:50 }}</p>
+                    <a href="{% url 'diary:entry-detail' item.pk %}" class="btn"
+                       style="background-color: indigo; color: white;">Подробно</a>
+                </div>
+                <div class="card-footer text-body-secondary">
+                    {{ item.created_at }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<p>Ничего не найдено.</p>
+{% endif %}
+{% endblock %}
