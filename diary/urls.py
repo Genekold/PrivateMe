@@ -19,7 +19,6 @@ urlpatterns = [
     path("diary/entry/<int:pk>/", EntryDetailView.as_view(), name="entry-detail"),
     path("diary/entry/<int:pk>/update/", EntryUpdateView.as_view(), name='entry-update'),
     path("message/entry/<int:pk>/delete/", EntryDeleteView.as_view(), name="entry-delete"),
-
     path('diary/tag/create/', TagCreateView.as_view(), name='tag-create'),
     path('search/', search_view, name='search'),
 ]

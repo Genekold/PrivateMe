@@ -121,8 +121,5 @@ def search_view(request):
     if query:
         results = Entry.objects.filter(Q(title__icontains=query) | Q(text__icontains=query), owner=request.user)
 
-    context = {
-        'results': results,
-        'query': query
-    }
+    context = {'results': results, 'query': query}
     return render(request, 'diary/search.html', context)

@@ -44,6 +44,14 @@ docker-compose up -d
 ```bash
 docker-compose exec app python manage.py create_super_user
 ```
+5 Для проверки работы создана команда для предварительного заролнения БД заполнения :
+```bash
+docker-compose exec app python manage.py add_data
+```
+После выполнения в систему добавленя 2 зарегистрированых пользователя: <u>**user1@mail.ru**</u>
+и <u>**user@mail.ru**</u> с паролями <u>"Qwe123"</u>. Так же будет добавлено несколько записей на 
+01.06.2025 и 02.06.2025.
+
 ## Доступ к приложению
 После успешного запуска контейнеров приложение будет доступно:
 🔗 [http://localhost](http://localhost)
