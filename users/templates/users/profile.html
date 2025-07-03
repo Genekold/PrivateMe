@@ -149,7 +149,6 @@
         <div class="profile-header">
             <div class="avatar-container">
                 <img src="{{ user.avatar }}" class="profile-avatar">
-<!--                <a href="#" class="avatar-edit-link">Изменить аватар</a>-->
             </div>
             <div class="profile-info">
                 <h1 class="profile-nickname">{{ user.nickname }}</h1>
@@ -177,7 +176,8 @@
             {% if user == request.user %}
             <div class="detail-card">
                 <div class="profile-actions">
-                    <a href="#" class="btn btn-edit" style="background-color: indigo; color: white;">Редактировать профиль</a>
+                    <a href="#" class="btn btn-edit"
+                       style="background-color: indigo; color: white;">Редактировать профиль</a>
                 </div>
             </div>
             {% endif %}
