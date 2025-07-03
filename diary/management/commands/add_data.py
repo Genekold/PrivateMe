@@ -53,7 +53,7 @@ class Command(BaseCommand):
             mood=Mood.LAUGH,
             owner=user1,
         )
-        e3.created_at = datetime.datetime(2025, 7, 1, 5, 13, 10, 358117, tzinfo=datetime.timezone.utc)
+        e3.created_at = datetime.datetime(2025, 7, 2, 5, 13, 10, 358117, tzinfo=datetime.timezone.utc)
         e3.tags.add(tag2, tag3)
         e3.save()
 

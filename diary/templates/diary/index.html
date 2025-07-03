@@ -86,7 +86,7 @@
             </div>
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-8">
         <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
             <div class="card text-center">
                 {% if entrys %}
@@ -118,18 +118,7 @@
             </div>
         </div>
     </div>
-    <div class="col-2">
-        <div class="flex-column flex-md-row py-md-5">
-            <select class="form-select" area-label="Default select example">
-                <option selected>Тэги</option>
-                {% for tag in user.tags.all %}
-                <option value="1">{{ tag }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <a href="{% url 'diary:tag-create' %}" class="btn"
-           style="background-color: indigo; color: white;">Добавить</a>
-    </div>
+
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
         <symbol id="arrow-left-short" viewBox="0 0 16 16">
             <path fill-rule="evenodd"
