@@ -1,0 +1,122 @@
+{% extends "base_login.html" %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<style>
+
+    .form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 350px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    position: relative;
+    }
+
+    .title {
+    font-size: 28px;
+    color:  #6610f2;
+    font-weight: 600;
+    letter-spacing: -1px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    }
+
+    .title::before,.title::after {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    left: 0px;
+    background-color: #6610f2;
+    }
+
+    .title::before {
+    width: 18px;
+    height: 18px;
+    background-color: #6610f2;
+    }
+
+    .title::after {
+    width: 18px;
+    height: 18px;
+    animation: pulse 1s linear infinite;
+    }
+
+    .message, .signin {
+    color: rgba(88, 87, 87, 0.822);
+    font-size: 14px;
+    }
+
+    .signin a {
+    color: #6610f2;
+    }
+
+    .form label .input {
+    width: 100%;
+    padding: 10px 10px 20px 10px;
+    outline: 0;
+    border: 1px solid rgba(105, 105, 105, 0.397);
+    border-radius: 10px;
+    }
+
+    .form label .input:placeholder-shown {
+    top: 15px;
+    font-size: 0.9em;
+    }
+
+    .submit {
+    border: none;
+    outline: none;
+    background-color: #6610f2;
+    padding: 10px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+    transform: .3s ease;
+    }
+
+    @keyframes pulse {
+    from {
+     transform: scale(0.9);
+     opacity: 1;
+    }
+
+    to {
+     transform: scale(1.8);
+     opacity: 0;
+    }
+    }
+</style>
+<main>
+    <div style="display: flex; justify-content: center; align-items: center">
+        <form method="POST" action="{% url 'users:login' %}" class="form" style="text-align: center; padding: 20px 0;">
+            {% csrf_token %}
+            <p class="title">Вход в систему</p>
+
+            {% if form.errors %}
+            <div style="color: red; margin-bottom: 15px; padding: 10px; background: #ffeeee;">
+                Неправильный email или пароль
+            </div>
+            {% endif %}
+
+            <label>
+                <input required placeholder="Укажите емайл:" type="email" class="input" name="username"
+                       value="{{ form.username.value|default:'' }}">
+            </label>
+            <label>
+                <input required placeholder="Пароль:" type="password" class="input" name="password">
+            </label>
+            <button type="submit" class="submit">Войти</button>
+            <p class="signin">Нет аккаунта?<a href="{% url 'users:register' %}"> Тогда сюда</a></p>
+            <a href="{% url 'users:password_reset' %}"><small class="text-muted">Забыли пароль</small></a>
+        </form>
+    </div>
+</main>
+{% endblock %}

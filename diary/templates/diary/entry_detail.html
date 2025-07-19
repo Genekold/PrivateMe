@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Запись{% endblock %}
+
+{% block content %}
+
+<div class="card">
+  <h5 class="card-header">{{ entry.title }} {{ entry.mood }}</h5>
+  <div class="card-body">
+    {% for tag in entry.tags.all %}
+    <h6 class="card-title text-secondary fst-italic"># {{ tag }}</h6>
+    {% endfor %}
+    <p class="card-text">{{ entry.text }}</p>
+    <a href="{% url 'diary:entry-list' %}" class="btn btn-primary">Вернуться</a>
+    <a href="{% url 'diary:entry-update' entry.pk %}" class="btn btn-primary">Изменить</a>
+    <a href="{% url 'diary:entry-delete' entry.pk %}" class="btn btn-danger">Удалить</a>
+  </div>
+</div>
+
+{% endblock %}
